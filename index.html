@@ -3,20 +3,29 @@
 <html>
 
 <head>
-
-    <script src="script.js"></script>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <script type="module" src="script.mjs"></script>
 
 
     <style>
-        canvas {background-color: gray;}
+        :root {
+            touch-action: pan-x pan-y;
+            width: 100%;
+        }
+        html, body{
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        canvas {
+            background-color: gray;
+        }
     </style>
 </head>
 
 <body>
-
-    <canvas id="canvas" width="800" height="600">
-    </canvas>
-
+    <canvas id="canvas"></canvas>
 </body>
 
 </html>
