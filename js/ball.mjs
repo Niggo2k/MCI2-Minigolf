@@ -1,14 +1,17 @@
 export function golfball() {
     let isTouched = false;
+    let isMoving = false;
     let ctx = undefined;
     let identifier = undefined;  // kein Touch-Punkt
     let startTouchTime = undefined;
 
     function draw(ctx, settings) {
         this.ctx = ctx;
-        drawCircle(ctx, settings.x , settings.y, settings.velocityradius, "#A8A8A88C", "#000");
+        if (isMoving==false) {
+            drawCircle(ctx, settings.x , settings.y, settings.velocityradius, "#A8A8A88C", "#000");
+            drawArrow(ctx, settings.x, settings.y, settings.velx, settings.vely, 7, 'white');
+        }
         drawCircle(ctx, settings.x , settings.y, settings.radius, "#fff", "#000");
-        drawArrow(ctx, settings.x, settings.y, settings.velx, settings.vely, 7, 'white')
     }
     // isInside: bei TouchStart aufgerufen 
     // ti: identifier, tx/ty: Touch-Koodinaten
@@ -18,16 +21,17 @@ export function golfball() {
         isTouched=true;
     }
 
-   
-
     function move(ctx, settings) {
         settings.vely = settings.y;
         settings.velx = settings.x;
+        isMoving=true;
     }
 
     // reset: bei TouchEnd aufgerufen;
     // ti: identifier
-    function reset(ti) { }
+    function reset() {
+        isMoving=false;
+    }
     return { draw, isInside, move, clicked, reset };
 }
 
