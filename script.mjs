@@ -1,8 +1,6 @@
 import * as G from "./js/ball.mjs";
 
-let canvas,ctx;
-let dx, dy;
-let ballSpeed = 5;
+let canvas, ctx, dx, dy;
 let golf = G.golfball();
 
 let circleSettings = {
@@ -22,7 +20,6 @@ window.onload = () => {
     canvas.height = window.innerHeight;
 
     function animate() {
-        //console.log('Drawing Frame');
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         ctx.resetTransform();
         golf.draw(ctx, circleSettings);
@@ -30,28 +27,21 @@ window.onload = () => {
     }
     animate();
 
-    canvas.addEventListener('touchstart', (e) => { 
-        
-     })
-
     canvas.addEventListener('touchmove', (e) => {
-        for (let i = 0; i < e.changedTouches.length; i++) {
-            if (i==0) {
-                dy = e.changedTouches[i].pageY-circleSettings.y;
-                dx = e.changedTouches[i].pageX-circleSettings.x;
-                circleSettings.vely = circleSettings.y - dy*2;
-                circleSettings.velx = circleSettings.x - dx*2;
-                circleSettings.velocityradius = Math.sqrt(dy*dy+dx*dx)<=60 ? Math.sqrt(dy*dy+dx*dx) : 60;
-            }
-        }
+        //
+        dy = e.changedTouches[0].pageY-circleSettings.y;
+        dx = e.changedTouches[0].pageX-circleSettings.x;
+        // Fixed Arrow Size
+        circleSettings.vely = Math.sqrt(dy*dy+dx*dx)<=60 ? circleSettings.y - dy*2 : ( dx>=0 ? (circleSettings.y - Math.sin( Math.atan(dy/dx) )*120) : (circleSettings.y + Math.sin( Math.atan(dy/dx) )*120));
+        circleSettings.velx = Math.sqrt(dy*dy+dx*dx)<=60 ? circleSettings.x - dx*2 : ( dx>=0 ? (circleSettings.x - Math.cos( Math.atan(dy/dx) )*120) : (circleSettings.x + Math.cos( Math.atan(dy/dx) )*120));
+        // Outercircle Size
+        circleSettings.velocityradius = Math.sqrt(dy*dy+dx*dx)<=60 ? Math.sqrt(dy*dy+dx*dx) : 60;
     })
 
     canvas.addEventListener('touchend', (e) => {
-        for (let i = 0; i < e.changedTouches.length; i++) {
-            if (i==0) {
-                golf.move(ctx, circleSettings);
-                circleSettings.velocityradius = 10;
-            }
+        if (e.changedTouches[0]) {
+            golf.move(ctx, circleSettings);
+            circleSettings.velocityradius = 10;
         }
     })
 
