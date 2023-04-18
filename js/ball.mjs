@@ -1,3 +1,5 @@
+import { drawCircle,distance } from "./graphics.mjs";
+
 export function golfball() {
     let isTouched = false;
     let isMoving = false;
@@ -35,13 +37,6 @@ export function golfball() {
     return { draw, isInside, move, clicked, reset };
 }
 
-function drawCircle(ctx, x, y, radius, fillStyle, strokeStyle){
-    ctx.beginPath();
-    ctx.fillStyle = fillStyle;
-    ctx.strokeStyle = strokeStyle;
-    ctx.arc(x , y, radius, 0, 2 * Math.PI);
-    ctx.fill()
-}
 
 function drawArrow(ctx, fromx, fromy, tox, toy, arrowWidth, color){
     //variables to be used when creating the arrow
