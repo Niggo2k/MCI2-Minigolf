@@ -6,25 +6,20 @@
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <meta name="mobile-web-app-capable" content="yes">
     <script type="module" src="script.mjs"></script>
+    <link rel="stylesheet" href="styles.css">
 
 
-    <style>
-        :root {
-            touch-action: pan-x pan-y;
-            width: 100%;
-        }
-        html, body{
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-        canvas {
-            background-color: gray;
-        }
-    </style>
+    
 </head>
 
 <body>
+
+    <div id="game-overlay" class="game-overlay">
+        <H2></H2>
+        <button id="retry-button"></button>
+        <button id="next-level-button"></button>
+    </div>
+
     <canvas id="canvas"></canvas>
 </body>
 

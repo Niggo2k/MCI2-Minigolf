@@ -1,0 +1,37 @@
+:root {
+    touch-action: pan-x pan-y;
+    width: 100%;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+canvas {
+    background-color: gray;
+}
+
+.game-overlay{
+    display: none;
+    background-color: aliceblue;
+    width: 200px;
+    height: 200px;
+    transform: translate(-50%,-50%);
+    border-radius: 15px;
+
+position: absolute;
+left: 50%;
+top: 50%;
+}
+.game-overlay p{
+    color: aquamarine;
+}
+.game-overlay button{
+
+}
+.show{
+    display:block
+}
