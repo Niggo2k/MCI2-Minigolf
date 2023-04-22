@@ -28,7 +28,7 @@ let levelSettings = [{
 export function levelmanager(ctx) {
     let currentLevel = 0;
     let currentSettings = { ...levelSettings[currentLevel] }
-    let dx, dy, moving=false, radians, velx, vely, movable;
+    let dx, dy, moving = false, radians, velx, vely, movable;
     let golf = G.golfball();
     let hole = H.hole(getSettings().radius);
     let stats = S.stats();
@@ -56,14 +56,12 @@ export function levelmanager(ctx) {
                 gameOverlay.querySelector('H2').innerHTML = `Level ${currentLevel + 1} completed!`;
                 gameOverlay.classList.add('show');
                 moving = false;
-                movable = false;
             }
 
             // Zeigt Controls wieder an -> funktioniert noch nicht ganz
             if (Math.round(velx) == 0 && Math.round(vely) == 0) {
                 console.log("0");
                 moving = false;
-                movable = true;
             }
             if (getSettings().by + vely > ctx.canvas.height || getSettings().by + vely < 0) {
                 vely *= -1;
@@ -91,22 +89,22 @@ export function levelmanager(ctx) {
             dy = y - getSettings().by;
             dx = x - getSettings().bx;
             // Fixed Arrow Size
-            getSettings().vely = Math.sqrt(dy * dy + dx * dx) <= 60 ? getSettings().by - dy * 2 : (dx >= 0 ? (getSettings().by - Math.sin(Math.atan(dy / dx)) * 120) : (getSettings().by + Math.sin(Math.atan(dy / dx)) * 120));
-            getSettings().velx = Math.sqrt(dy * dy + dx * dx) <= 60 ? getSettings().bx - dx * 2 : (dx >= 0 ? (getSettings().bx - Math.cos(Math.atan(dy / dx)) * 120) : (getSettings().bx + Math.cos(Math.atan(dy / dx)) * 120));
+            getSettings().vely = Math.sqrt(dy ** 2 + dx ** 2) <= 60 ? getSettings().by - dy * 2 : (dx >= 0 ? (getSettings().by - Math.sin(Math.atan(dy / dx)) * 120) : (getSettings().by + Math.sin(Math.atan(dy / dx)) * 120));
+            getSettings().velx = Math.sqrt(dy ** 2 + dx ** 2) <= 60 ? getSettings().bx - dx * 2 : (dx >= 0 ? (getSettings().bx - Math.cos(Math.atan(dy / dx)) * 120) : (getSettings().bx + Math.cos(Math.atan(dy / dx)) * 120));
             // Outercircle Size
-            getSettings().velocityradius = Math.sqrt(dy * dy + dx * dx) <= 60 ? Math.sqrt(dy * dy + dx * dx) : 60;
+            getSettings().velocityradius = Math.sqrt(dy ** 2 + dx ** 2) <= 60 ? Math.sqrt(dy ** 2 + dx ** 2) : 60;
             movable = true;
         }
     }
 
     function touchEnd(touchReleased) {
         if (touchReleased && movable) {
+            let t = dx >= 0 ? -5 : 5;
             radians = Math.atan(dy / dx),
-                velx = dx >= 0 ? Math.cos(radians) * -5 : Math.cos(radians) * 5,
-                vely = dx >= 0 ? Math.sin(radians) * -5 : Math.sin(radians) * 5;
+            velx = Math.cos(radians) * t;
+            vely = Math.sin(radians) * t;
             moving = true;
             getSettings().velocityradius = 10;
-
             stats.incrementStrokes();
         }
     }
