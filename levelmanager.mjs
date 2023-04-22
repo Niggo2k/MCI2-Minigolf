@@ -1,5 +1,6 @@
 import * as G from "./js/ball.mjs";
 import * as H from "./js/hole.mjs";
+import * as S from "./js/stats.mjs";
 
 let levelSettings = [{
     bx: 200,
@@ -25,24 +26,34 @@ let levelSettings = [{
 
 
 export function levelmanager(ctx) {
-    let dx, dy, moved, radians, velx, vely;
     let currentLevel = 0;
+    let currentSettings = { ...levelSettings[currentLevel] }
+    let ballStrokes = 0;
+    let dx, dy, moved, radians, velx, vely;
     let golf = G.golfball();
     let hole = H.hole(getSettings().radius);
+    let stats = S.stats();
 
     function getSettings() {
-        return levelSettings[currentLevel];
+        return currentSettings;
+    }
+
+    function retryLevel() {
+        currentSettings = { ...levelSettings[currentLevel] };
+        stats.resetStrokes();
     }
 
     function nextLevel() {
         currentLevel++;
+        currentSettings = { ...levelSettings[currentLevel] };
+        stats.resetStrokes();
     }
 
 
     function mainLoop(ctx) {
         if (moved) {
 
-            if (hole.isInside(getSettings().hx,getSettings().hy, getSettings().bx, getSettings().by)) {
+            if (hole.isInside(getSettings().hx, getSettings().hy, getSettings().bx, getSettings().by)) {
                 let gameOverlay = document.getElementById('game-overlay');
 
 
@@ -97,10 +108,12 @@ export function levelmanager(ctx) {
                 vely = dx >= 0 ? Math.sin(radians) * -5 : Math.sin(radians) * 5;
             moved = true;
             getSettings().velocityradius = 10;
+
+            stats.incrementStrokes();
         }
     }
 
 
 
-    return { mainLoop, touchMove, touchEnd, nextLevel };
+    return { mainLoop, touchMove, touchEnd, retryLevel, nextLevel };
 }

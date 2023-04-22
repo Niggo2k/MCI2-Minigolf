@@ -17,24 +17,42 @@ canvas {
     background-size: 5%;
 }
 
-.game-overlay{
+#ball-strokes {
+    color: red;
+    position: absolute;
+    left: 5%;
+    top: 5%;
+}
+
+.game-overlay {
     display: none;
     background-color: aliceblue;
     width: 200px;
     height: 200px;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     border-radius: 15px;
 
-position: absolute;
-left: 50%;
-top: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
 }
-.game-overlay p{
+
+
+
+
+
+.game-overlay p {
     color: aquamarine;
 }
-.game-overlay button{
 
+.game-overlay button {
+    border-radius: 15px;
 }
-.show{
-    display:block
+.game-overlay button:active {
+    border-radius: 15px;
+    background-color: cornflowerblue;
+}
+
+.show {
+    display: block
 }

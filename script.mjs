@@ -1,5 +1,4 @@
 import * as L from "./levelmanager.mjs";
-
 window.onload = () => {
     let canvas = document.getElementById('canvas');
     let gameOverlay = document.getElementById('game-overlay');
@@ -28,6 +27,11 @@ window.onload = () => {
 
     document.getElementById('next-level-button').addEventListener('click', (e) => {
         level.nextLevel();
+        gameOverlay.classList.remove('show')
+    })
+
+    document.getElementById('retry-button').addEventListener('click', (e) => {
+        level.retryLevel();
         gameOverlay.classList.remove('show')
     })
 
