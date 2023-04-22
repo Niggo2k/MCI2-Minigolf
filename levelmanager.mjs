@@ -12,8 +12,11 @@ let levelSettings = [{
     hx: 100,
     hy: 100,
     radius: 20,
-    velocityradius: 20
-
+    velocityradius: 20,
+    mapLines: [
+        {start:{x:0,y:100},end:{x:300,y:100}},
+        {start:{x:300,y:0},end:{x:300,y:500}}
+    ]
 },
 {
     bx: 200,
@@ -58,7 +61,7 @@ export function levelmanager(ctx) {
         ctx.lineTo(tox, toy);
         ctx.stroke();
     }
-    
+
 
     function mainLoop(ctx) {
         if (moving) {
@@ -89,11 +92,24 @@ export function levelmanager(ctx) {
         } else {
             golf.reset();
         }
-        drawLine(100,100,100,200);
-        if(col.isColliding(100,100,100,200,getSettings().bx,getSettings().by,getSettings().radius)){
-            velx *= -1;
-            vely *= -1;
-            console.log('collision')}
+
+        for(let i=0;i<getSettings().mapLines.length;i++){
+            let line = getSettings().mapLines[i];
+            drawLine(line.start.x, line.start.y, line.end.x, line.end.y);
+            let colinfo = col.isColliding(line.start.x, line.start.y, line.end.x, line.end.y, getSettings().bx, getSettings().by, getSettings().radius)
+
+            //console.log(colinfo)
+            if (colinfo[1] == true) {
+                console.log('col')
+                switch(colinfo[0]){
+                    case 0:break; //impossible
+                    case 'senkrecht': velx *= -1; break;
+                    case 'waagerecht': vely *= -1;
+                }
+            }
+        }
+
+        
         golf.draw(ctx, getSettings());
         hole.draw(ctx, getSettings().hx, getSettings().hy);
     }
