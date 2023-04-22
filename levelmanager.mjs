@@ -1,6 +1,8 @@
 import * as G from "./js/ball.mjs";
+import { distance } from "./js/graphics.mjs";
 import * as H from "./js/hole.mjs";
 import * as S from "./js/stats.mjs";
+import * as CS from "./js/collisionDetection.js";
 
 let levelSettings = [{
     bx: 200,
@@ -26,12 +28,14 @@ let levelSettings = [{
 
 
 export function levelmanager(ctx) {
+    let ballSpeed = 15;
     let currentLevel = 0;
     let currentSettings = { ...levelSettings[currentLevel] }
     let dx, dy, moving = false, radians, velx, vely, movable;
     let golf = G.golfball();
     let hole = H.hole(getSettings().radius);
     let stats = S.stats();
+    let col = CS.collisionDetection();
 
     function getSettings() {
         return currentSettings;
@@ -48,6 +52,13 @@ export function levelmanager(ctx) {
         stats.resetStrokes();
     }
 
+    function drawLine(fromx, fromy, tox, toy) {
+        ctx.beginPath();
+        ctx.moveTo(fromx, fromy);
+        ctx.lineTo(tox, toy);
+        ctx.stroke();
+    }
+    
 
     function mainLoop(ctx) {
         if (moving) {
@@ -78,7 +89,11 @@ export function levelmanager(ctx) {
         } else {
             golf.reset();
         }
-
+        drawLine(100,100,100,200);
+        if(col.isColliding(100,100,100,200,getSettings().bx,getSettings().by,getSettings().radius)){
+            velx *= -1;
+            vely *= -1;
+            console.log('collision')}
         golf.draw(ctx, getSettings());
         hole.draw(ctx, getSettings().hx, getSettings().hy);
     }
@@ -99,9 +114,9 @@ export function levelmanager(ctx) {
 
     function touchEnd(touchReleased) {
         if (touchReleased && movable) {
-            let t = dx >= 0 ? -5 : 5;
+            let t = dx >= 0 ? ballSpeed * -1 : ballSpeed;
             radians = Math.atan(dy / dx),
-            velx = Math.cos(radians) * t;
+                velx = Math.cos(radians) * t;
             vely = Math.sin(radians) * t;
             moving = true;
             getSettings().velocityradius = 10;
