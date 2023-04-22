@@ -15,7 +15,9 @@ let levelSettings = [{
     velocityradius: 20,
     mapLines: [
         {start:{x:0,y:100},end:{x:300,y:100}},
-        {start:{x:300,y:0},end:{x:300,y:500}}
+        {start:{x:300,y:0},end:{x:300,y:300}},
+        {start:{x:600,y:0},end:{x:800,y:500}},
+        {start:{x:1000,y:1000},end:{x:1500,y:0}}
     ]
 },
 {
@@ -38,7 +40,7 @@ export function levelmanager(ctx) {
     let golf = G.golfball();
     let hole = H.hole(getSettings().radius);
     let stats = S.stats();
-    let col = CS.collisionDetection();
+    let col = CS.collisionDetection(ctx);
 
     function getSettings() {
         return currentSettings;
@@ -60,6 +62,7 @@ export function levelmanager(ctx) {
         ctx.moveTo(fromx, fromy);
         ctx.lineTo(tox, toy);
         ctx.stroke();
+        ctx.restore();
     }
 
 
@@ -105,6 +108,7 @@ export function levelmanager(ctx) {
                     case 0:break; //impossible
                     case 'senkrecht': velx *= -1; break;
                     case 'waagerecht': vely *= -1;
+                    default:  velx *= -1;
                 }
             }
         }
