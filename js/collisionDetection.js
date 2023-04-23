@@ -12,7 +12,7 @@ export function collisionDetection(ctx) {
         return y - (m * x)
     }
     function steigungderneuengerade(m1) {
-        return m1 > 0 ? (1 / m1) : (-1 / m1);
+        return (-1 / m1);
     }
     function schnittpunktGerade(m1, m2, b1, b2) {
         let x = (b2 - b1) / (m1 - m2);

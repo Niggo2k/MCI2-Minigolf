@@ -14,10 +14,10 @@ let levelSettings = [{
     radius: 20,
     velocityradius: 20,
     mapLines: [
-        {start:{x:0,y:100},end:{x:300,y:100}},
-        {start:{x:300,y:0},end:{x:300,y:300}},
-        {start:{x:600,y:0},end:{x:800,y:500}},
-        {start:{x:1000,y:1000},end:{x:1500,y:0}}
+        { start: { x: 100, y: 400 }, end: { x: 300, y: 100 } },
+        { start: { x: 300, y: 100 }, end: { x: 1000, y: 100 } },
+        { start: { x: 1000, y: 100 }, end: { x: 1200, y: 400 } }
+        //{start:{x:1000,y:1000},end:{x:1500,y:0}}
     ]
 },
 {
@@ -96,7 +96,7 @@ export function levelmanager(ctx) {
             golf.reset();
         }
 
-        for(let i=0;i<getSettings().mapLines.length;i++){
+        for (let i = 0; i < getSettings().mapLines.length; i++) {
             let line = getSettings().mapLines[i];
             drawLine(line.start.x, line.start.y, line.end.x, line.end.y);
             let colinfo = col.isColliding(line.start.x, line.start.y, line.end.x, line.end.y, getSettings().bx, getSettings().by, getSettings().radius)
@@ -104,21 +104,21 @@ export function levelmanager(ctx) {
             //console.log(colinfo)
             if (colinfo[1] == true) {
                 console.log('col')
-                switch(colinfo[0]){
-                    case 0:break; //impossible
+                switch (colinfo[0]) {
+                    case 0: break; //impossible
                     case 'senkrecht': velx *= -1; break;
-                    case 'waagerecht': vely *= -1;
-                    default:  velx *= -1;
+                    case 'waagerecht': vely *= -1; break;
+                    default: velx *= -1;
                 }
             }
         }
 
-        
+
         golf.draw(ctx, getSettings());
         hole.draw(ctx, getSettings().hx, getSettings().hy);
     }
 
-    function touchMove(x, y) {
+    function singleTouchMove(x, y) {
 
         if (!moving) {
             dy = y - getSettings().by;
@@ -130,6 +130,9 @@ export function levelmanager(ctx) {
             getSettings().velocityradius = Math.sqrt(dy ** 2 + dx ** 2) <= 60 ? Math.sqrt(dy ** 2 + dx ** 2) : 60;
             movable = true;
         }
+    }
+    function doubleTouchMove(x1, y1, x2, y2) {
+        console.log(`Touch1: x:${x1} y:${y1} Touch2: x:${x2} y:${y2}`);
     }
 
     function touchEnd(touchReleased) {
@@ -146,5 +149,5 @@ export function levelmanager(ctx) {
 
 
 
-    return { mainLoop, touchMove, touchEnd, retryLevel, nextLevel };
+    return { mainLoop, singleTouchMove, doubleTouchMove, touchEnd, retryLevel, nextLevel };
 }

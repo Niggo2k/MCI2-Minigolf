@@ -16,7 +16,13 @@ window.onload = () => {
     animate();
 
     canvas.addEventListener('touchmove', (e) => {
-        level.touchMove(e.changedTouches[0].pageX, e.changedTouches[0].pageY)
+        console.log(e)
+        if(e.touches.length == 1){
+            level.singleTouchMove(e.changedTouches[0].pageX, e.changedTouches[0].pageY)
+        }
+        if(e.touches.length == 2 ){
+            level.doubleTouchMove(e.touches[0].pageX, e.touches[0].pageY,e.touches[1].pageX, e.touches[1].pageY)
+        }
     })
 
     canvas.addEventListener('touchend', (e) => {
