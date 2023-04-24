@@ -1,5 +1,4 @@
 import * as G from "./js/ball.mjs";
-import { distance } from "./js/graphics.mjs";
 import * as H from "./js/hole.mjs";
 import * as S from "./js/stats.mjs";
 import * as CS from "./js/collisionDetection.js";
@@ -96,7 +95,6 @@ export function levelmanager(ctx) {
 
             // Zeigt Controls wieder an -> funktioniert noch nicht ganz
             if (Math.round(velx) == 0 && Math.round(vely) == 0) {
-                console.log("0");
                 moving = false;
             }
             if (getSettings().by + vely > ctx.canvas.height || getSettings().by + vely < 0) {
@@ -119,10 +117,7 @@ export function levelmanager(ctx) {
             let line = getSettings().mapLines[i];
             drawLine(line.start.x, line.start.y, line.end.x, line.end.y,3);
             let colinfo = col.isColliding(line.start.x, line.start.y, line.end.x, line.end.y, getSettings().bx, getSettings().by, getSettings().radius)
-
-            //console.log(colinfo)
             if (colinfo[1] == true) {
-                console.log('col')
                 switch (colinfo[0]) {
                     case 0: break; //impossible
                     case 'senkrecht': velx *= -1; break;
@@ -138,7 +133,6 @@ export function levelmanager(ctx) {
     }
 
     function singleTouchMove(x, y) {
-
         if (!moving) {
             dy = y - getSettings().by;
             dx = x - getSettings().bx;
