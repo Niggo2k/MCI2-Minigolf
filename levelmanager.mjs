@@ -75,7 +75,8 @@ export function levelmanager(ctx) {
         stats.resetStrokes();
     }
 
-    function drawLine(fromx, fromy, tox, toy) {
+    function drawLine(fromx, fromy, tox, toy, lineWidth = 1.0) {
+        ctx.lineWidth = lineWidth;
         ctx.beginPath();
         ctx.moveTo(fromx, fromy);
         ctx.lineTo(tox, toy);
@@ -116,7 +117,7 @@ export function levelmanager(ctx) {
 
         for (let i = 0; i < getSettings().mapLines.length; i++) {
             let line = getSettings().mapLines[i];
-            drawLine(line.start.x, line.start.y, line.end.x, line.end.y);
+            drawLine(line.start.x, line.start.y, line.end.x, line.end.y,3);
             let colinfo = col.isColliding(line.start.x, line.start.y, line.end.x, line.end.y, getSettings().bx, getSettings().by, getSettings().radius)
 
             //console.log(colinfo)
@@ -149,9 +150,6 @@ export function levelmanager(ctx) {
             movable = true;
         }
     }
-    function doubleTouchMove(x1, y1, x2, y2) {
-        console.log(`Touch1: x:${x1} y:${y1} Touch2: x:${x2} y:${y2}`);
-    }
 
     function touchEnd(touchReleased) {
         if (touchReleased && movable) {
@@ -167,5 +165,5 @@ export function levelmanager(ctx) {
 
 
 
-    return { mainLoop, singleTouchMove, doubleTouchMove, touchEnd, retryLevel, nextLevel };
+    return { mainLoop, singleTouchMove, touchEnd, retryLevel, nextLevel };
 }

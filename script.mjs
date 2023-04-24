@@ -1,9 +1,14 @@
 import * as L from "./levelmanager.mjs";
+import * as BG from "./backgrounds.mjs";
+import * as DT from "./doubleTouch.mjs";
 window.onload = () => {
     let canvas = document.getElementById('canvas');
+    let B = BG.backgrounds();
+    B.setCurrentBackground(canvas);
     let gameOverlay = document.getElementById('game-overlay');
     let ctx = canvas.getContext('2d');
     let level = L.levelmanager(ctx);
+    let D = DT.doubleTouch();
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
@@ -15,20 +20,28 @@ window.onload = () => {
     }
     animate();
 
+    let touches = 0;
+
+    canvas.addEventListener('touchstart', (e) => {
+        touches++;
+    })
+
     canvas.addEventListener('touchmove', (e) => {
-        console.log(e)
-        if(e.touches.length == 1){
+        if (touches == 1) {
             level.singleTouchMove(e.changedTouches[0].pageX, e.changedTouches[0].pageY)
-        }
-        if(e.touches.length == 2 ){
-            level.doubleTouchMove(e.touches[0].pageX, e.touches[0].pageY,e.touches[1].pageX, e.touches[1].pageY)
         }
     })
 
     canvas.addEventListener('touchend', (e) => {
-        level.touchEnd(e.changedTouches[0])
+        if (touches == 2) {
+            B.setNextBackground(canvas);
+            touches = 0;
+        }
+        if (touches == 1) {
+            level.touchEnd(e.changedTouches[0])
+            touches = 0;
+        }
     })
-
 
 
     document.getElementById('next-level-button').addEventListener('click', (e) => {
