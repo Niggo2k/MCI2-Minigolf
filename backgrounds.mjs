@@ -9,8 +9,10 @@ export function backgrounds() {
     function setNextBackground(element) {
         if(images[currentimage+1]){
         currentimage++;
-        setCurrentBackground(element);
+        }else{
+            currentimage=0;
         }
+        setCurrentBackground(element);
     }
     function setCurrentBackground(element) {
         element.style.backgroundImage = `url('${getCurrentbackground()}')`;
