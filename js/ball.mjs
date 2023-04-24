@@ -10,8 +10,8 @@ export function golfball() {
     function draw(ctx, settings) {
         this.ctx = ctx;
         if (isMoving==false) {
-            drawCircle(ctx, settings.bx , settings.by, settings.velocityradius, "#A8A8A88C", "#000");
-            drawArrow(ctx, settings.bx, settings.by, settings.velx, settings.vely, 7, 'white');
+            drawCircle(ctx, settings.bx , settings.by, settings.velocityradius, "#DBDBDB8C", "#000");
+            drawArrow(ctx, settings.bx, settings.by, settings.velx, settings.vely, 15, 'white');
         }
         drawCircle(ctx, settings.bx , settings.by, settings.radius, "#fff", "#000");
     }
