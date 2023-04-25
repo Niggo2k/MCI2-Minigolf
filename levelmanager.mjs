@@ -55,29 +55,34 @@ export function levelmanager(ctx) {
     }
 
     function nextLevel() {
-        levelEnd=false;
+        levelSettings=currentLevelSettings;
         tries = 0;
         currentLevel+1>levelSettings.length-1 ? currentLevel=0 : currentLevel++;
-        levelSettings=currentLevelSettings;
+        levelEnd=false;
     }
 
     function restartLevel() {
         levelSettings=currentLevelSettings;
-        levelEnd=false;
         tries = 0;
+        levelEnd=false;
+    }
+
+    function detectBottomTopCollision(cx, cy, cr, rx, ry ,rw ,rh) {
+        const closestX = Math.max(rx, Math.min(cx, rx + rw));
+        const closestY = Math.max(ry, Math.min(cy, ry + rh));
+    
+        const dx = cx - closestX;
+        const dy = cy - closestY;
+    
+        return (dx * dx + dy * dy) <= (cr * cr);
     }
 
     function mainLoop(ctx) {
+        const rect = ctx.canvas.getBoundingClientRect();
         if (levelEnd===false) {
             if (isMoving) {
                 // background movement
                 ctx.canvas.style.backgroundPositionX = -getSettings().bx + "px";
-                
-                // speed & slow down
-                velx = velx - (velx * 0.01);
-                vely = vely - (vely * 0.01);
-                getSettings().bx += velx;
-                getSettings().by += vely;
                 // check if ball is in hole
                 if (hole.isInside(getSettings().hx - getSettings().bx,getSettings().hy, getSettings().bx, getSettings().by)) {
                     let gameOverlay = document.getElementById('game-overlay');
@@ -94,20 +99,6 @@ export function levelmanager(ctx) {
                 if (Math.round(velx) == 0 && Math.round(vely) == 0) { isMoving = false; }
                 // Object collision
                 for (const key in getSettings().objects) {
-                    // Left Collision
-                    if ((getSettings().bx + getSettings().radius + velx <= getSettings().objects[key].x - getSettings().bx + 5
-                    && getSettings().bx + getSettings().radius + velx >= getSettings().objects[key].x - getSettings().bx - 5)
-                    && (getSettings().by + vely >= getSettings().objects[key].y && getSettings().by + vely <= getSettings().objects[key].y + getSettings().objects[key].h)) {
-                        //console.log("left");
-                        velx *= -1;
-                    }
-                    // Right Collision
-                    if ((getSettings().bx - getSettings().radius + velx <= getSettings().objects[key].x - getSettings().bx + getSettings().objects[key].w + 5
-                    && getSettings().bx - getSettings().radius + velx >= getSettings().objects[key].x  + getSettings().objects[key].w - getSettings().bx - 5)
-                    && (getSettings().by + vely >= getSettings().objects[key].y && getSettings().by + vely <= getSettings().objects[key].y + getSettings().objects[key].h)) {
-                        //console.log("right");
-                        velx *= -1;
-                    }
                     // Top Collision
                     if ((getSettings().by + getSettings().radius + vely <= getSettings().objects[key].y + 5
                     && getSettings().by + getSettings().radius + vely >= getSettings().objects[key].y - 5)
@@ -122,6 +113,10 @@ export function levelmanager(ctx) {
                         //console.log("bottom");
                         vely *= -1;
                     }
+
+                    if(detectBottomTopCollision(getSettings().bx + velx, getSettings().by + vely, getSettings().radius, getSettings().objects[key].x - camera.x, getSettings().objects[key].y, getSettings().objects[key].w, getSettings().objects[key].h)){
+                        velx *= -1;
+                    }
                 }
                 // wall collision
                 if (camera.y + getSettings().radius + vely >= ctx.canvas.height || camera.y - getSettings().radius + vely <= 0) {
@@ -130,6 +125,11 @@ export function levelmanager(ctx) {
                 if (camera.x + getSettings().radius + velx >= ctx.canvas.width || camera.x - getSettings().radius + velx <= 0) {
                     velx *= -1;
                 }
+                // speed & slow down
+                velx = velx - (velx * 0.01);
+                vely = vely - (vely * 0.01);
+                getSettings().bx += velx;
+                getSettings().by += vely;
                 // hide arrows & controls in ball-script
                 golf.movingStatus(ctx, getSettings());
             } else {
@@ -144,6 +144,7 @@ export function levelmanager(ctx) {
         }
         // create Walls in Levels
         for (const key in getSettings().objects) {
+            const rect = ctx.canvas.getBoundingClientRect();
             ctx.beginPath();
             ctx.fillStyle = "#DDDDDD";
             ctx.strokeStyle = "#DDDDDD";
@@ -153,6 +154,21 @@ export function levelmanager(ctx) {
         }
         hole.draw(ctx, getSettings().hx - camera.x, getSettings().hy);
         golf.draw(ctx, getSettings());
+        // Hole Marker
+        if ((getSettings().hx-camera.x)>rect.right) {
+            ctx.beginPath();
+            ctx.moveTo(ctx.canvas.width-60, getSettings().hy-getSettings().radius);
+            ctx.lineTo(ctx.canvas.width, getSettings().hy);
+            ctx.lineTo(ctx.canvas.width-60, getSettings().hy + 40);
+            ctx.lineTo(ctx.canvas.width-60, getSettings().hy-getSettings().radius);
+            ctx.arc(ctx.canvas.width-70, getSettings().hy, 40, 0, Math.PI * 2);
+            ctx.lineTo(ctx.canvas.width-60, getSettings().hy);
+            ctx.closePath();
+            ctx.fill();
+            const img = new Image();
+            img.src = "https://upload.wikimedia.org/wikipedia/commons/9/94/Golf_flag_icon2.svg";
+            ctx.drawImage(img, ctx.canvas.width-80-(208*40/334)/2, getSettings().hy-20, 208*40/334, 40);
+        }
     }
 
     function touchMove(x, y) {
@@ -167,6 +183,7 @@ export function levelmanager(ctx) {
             getSettings().velocityradius = Math.sqrt(dy * dy + dx * dx) <= 120 ? Math.sqrt(dy * dy + dx * dx) : 120;
         }
     }
+
     function MoveField(x, y) {
         if (isMoving==false) {
             moveplayfield=true;
