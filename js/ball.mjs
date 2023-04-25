@@ -10,8 +10,8 @@ export function golfball() {
     function draw(ctx, settings) {
         this.ctx = ctx;
         if (isMoving==false) {
-            drawCircle(ctx, settings.bx , settings.by, settings.velocityradius, "#A8A8A88C", "#000");
-            drawArrow(ctx, settings.bx, settings.by, settings.velx, settings.vely, 7, 'white');
+            drawCircle(ctx, settings.bx , settings.by, settings.velocityradius, "#DBDBDB8C", "#000");
+            drawArrow(ctx, settings.bx, settings.by, settings.velx, settings.vely, 15, 'white');
         }
         drawCircle(ctx, settings.bx , settings.by, settings.radius, "#fff", "#000");
     }
@@ -23,7 +23,7 @@ export function golfball() {
         isTouched=true;
     }
 
-    function move(ctx, settings) {
+    function movingStatus(ctx, settings) {
         settings.vely = settings.by;
         settings.velx = settings.bx;
         isMoving=true;
@@ -31,10 +31,10 @@ export function golfball() {
 
     // reset: bei TouchEnd aufgerufen;
     // ti: identifier
-    function reset() {
+    function resetStatus() {
         isMoving=false;
     }
-    return { draw, isInside, move, clicked, reset };
+    return { draw, isInside, movingStatus, clicked, resetStatus };
 }
 
 
