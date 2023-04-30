@@ -68,6 +68,14 @@ canvas {
     border: 2px solid rgb(19, 19, 19);
     background-color: #2b2b2b;
 }
+#switchbg-btn{
+    position: absolute;
+    top: 95%;
+    left: 80%;
+    width: fit-content;
+    height: fit-content;
+}
+
 .show{
     display: flex;
 }

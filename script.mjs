@@ -1,14 +1,20 @@
 import * as L from "./levelmanager.mjs";
+import * as BG from "./js/backgrounds.mjs";
 
 window.onload = () => {
     let canvas = document.getElementById('canvas');
+
+    let B = BG.backgrounds();
+    B.setCurrentBackgroundOn(canvas);
+    let nextBgBtn = document.getElementById('switchbg-btn');
     let gameOverlay = document.getElementById('game-overlay');
+
     let ctx = canvas.getContext('2d');
     let level = L.levelmanager(ctx);
     let fingerup = true;
     let canvasClass = 0;
     canvas.width = 800;
-    canvas.height = window.innerHeight-20;
+    canvas.height = window.innerHeight - 20;
 
     function animate() {
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -18,20 +24,25 @@ window.onload = () => {
     }
     animate();
 
+
+    nextBgBtn.addEventListener('click',()=>{
+        B.setNextBackgroundOn(canvas);
+    })
+
     canvas.addEventListener('touchmove', (e) => {
-        if (e.changedTouches[0]&&!e.changedTouches[1]&&!e.changedTouches[2]) {
+        if (e.changedTouches[0] && !e.changedTouches[1] && !e.changedTouches[2]) {
             level.touchMove(e.changedTouches[0].pageX, e.changedTouches[0].pageY);
-        } else if (e.changedTouches[0]&&e.changedTouches[1]&&!e.changedTouches[2]) {
+        } else if (e.changedTouches[0] && e.changedTouches[1] && !e.changedTouches[2]) {
             level.MoveField(e.changedTouches[0].pageX, e.changedTouches[0].pageY);
-        } else if (e.changedTouches[0]&&e.changedTouches[1]&&e.changedTouches[2] && fingerup) {
+        } else if (e.changedTouches[0] && e.changedTouches[1] && e.changedTouches[2] && fingerup) {
             canvas?.classList.remove(`bg-${canvasClass}`);
-            canvas?.classList.add(`bg-${canvasClass>0 ? canvasClass=0 : canvasClass=1}`);
+            canvas?.classList.add(`bg-${canvasClass > 0 ? canvasClass = 0 : canvasClass = 1}`);
             fingerup = false;
         }
     })
 
     canvas.addEventListener('touchend', (e) => {
-        if (e.changedTouches[0]&&!e.changedTouches[1]&&!e.changedTouches[2]) {
+        if (e.changedTouches[0] && !e.changedTouches[1] && !e.changedTouches[2]) {
             level.touchEnd(e.changedTouches[0])
         }
         fingerup = true;
