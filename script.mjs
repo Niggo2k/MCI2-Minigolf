@@ -3,14 +3,14 @@ import * as BG from "./backgrounds.mjs";
 import * as DT from "./doubleTouch.mjs";
 window.onload = () => {
     let canvas = document.getElementById('canvas');
+    canvas.width = 500;
+    canvas.height = 800;
     let B = BG.backgrounds();
     let doubleTouch = DT.doubleTouch(); 
     B.setCurrentBackground(canvas);
     let gameOverlay = document.getElementById('game-overlay');
     let ctx = canvas.getContext('2d');
     let level = L.levelmanager(ctx);
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
     let nextBgBtn = document.getElementById('switchbg-btn');
     let zoomBtn = document.getElementById('zoom-btn');
 

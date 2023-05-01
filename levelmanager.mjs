@@ -7,33 +7,24 @@ import * as CS from "./js/collisionDetection.js";
 let mapvertlen= 335
 
 let levelSettings = [{
-    bx: 150,
-    by: 450,
-    velx: 150,
-    vely: 450,
-    hx: 1600,
-    hy: 450,
+    bx: 50,
+    by: 150,
+    velx: 50,
+    vely: 150,
+    hx: 350,
+    hy: 700,
     radius: 20,
     velocityradius: 20,
     
     mapLines: [
         //Map Border
-        { start: { x: 100, y: 100 }, end: { x: 1700, y: 100 } },
-        { start: { x: 100, y: 100 }, end: { x: 100, y: 800 } },
-        { start: { x: 1700, y: 100 }, end: { x: 1700, y: 800 } },
-        { start: { x: 100, y: 800 }, end: { x: 1700, y: 800 } },
+        { start: { x: 20, y: 100 }, end: { x:450, y: 100 } },
+        { start: { x: 20, y: 100 }, end: { x: 20, y: 750 } },
+        { start: { x: 450, y: 100 }, end: { x: 450, y: 750 } },
+        { start: { x: 20, y: 750 }, end: { x: 450, y: 750 } },
 
-        //top-to-mid
-        { start: { x: 300, y: 100 }, end: { x: 300, y: 100+mapvertlen } },
-        { start: { x: 800, y: 100 }, end: { x: 800, y: 100+mapvertlen } },
-        { start: { x: 1000, y: 100 }, end: { x: 1000, y: 100+mapvertlen } },
-
-
-        //bot-to-mid
-        { start: { x: 500, y: 800-mapvertlen }, end: { x: 500, y: 800 } },
-        { start: { x: 900, y: 800-mapvertlen }, end: { x: 900, y: 800 } },
-        { start: { x: 1400, y: 800-mapvertlen }, end: { x: 1400, y: 800 } },
-
+        { start: { x: 20, y: 200 }, end: { x: 250, y: 200 } },
+        { start: { x: 250, y: 400 }, end: { x: 450, y: 400 } }
 
     ]
 },
