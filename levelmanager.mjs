@@ -18,13 +18,15 @@ let levelSettings = [{
     
     mapLines: [
         //Map Border
-        { start: { x: 20, y: 100 }, end: { x:450, y: 100 } },
+        { start: { x: 20, y: 100 }, end: { x:750, y: 100 } },
         { start: { x: 20, y: 100 }, end: { x: 20, y: 750 } },
-        { start: { x: 450, y: 100 }, end: { x: 450, y: 750 } },
-        { start: { x: 20, y: 750 }, end: { x: 450, y: 750 } },
+        { start: { x: 750, y: 100 }, end: { x: 750, y: 750 } },
+        { start: { x: 20, y: 750 }, end: { x: 750, y: 750 } },
 
-        { start: { x: 20, y: 200 }, end: { x: 250, y: 200 } },
-        { start: { x: 250, y: 400 }, end: { x: 450, y: 400 } }
+        { start: { x: 20, y: 200 }, end: { x: 450, y: 200 } },
+        { start: { x: 250, y: 400 }, end: { x: 750, y: 400 } },
+
+        { start: { x: 20, y: 600 }, end: { x: 450, y: 600 } }
 
     ]
 },
