@@ -24,7 +24,7 @@ canvas {
     padding: 0;
     margin: 0;
     left: 50px;
-    top: 5%;
+    top: 50px;
 }
 
 .hud{
@@ -32,11 +32,11 @@ canvas {
 }
 #zoom-btn{
     left: 500px;
-    top: 5%; 
+    top: 50px; 
 }
 #switchbg-btn{
     left: 600px;
-    top: 5%; 
+    top: 50px;
 }
 
 .game-overlay {
