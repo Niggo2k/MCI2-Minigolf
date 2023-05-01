@@ -3,8 +3,8 @@ import * as BG from "./backgrounds.mjs";
 import * as DT from "./doubleTouch.mjs";
 window.onload = () => {
     let canvas = document.getElementById('canvas');
-    canvas.width = 500;
-    canvas.height = 800;
+    canvas.width = 800;
+    canvas.height = window.innerHeight - 20;
     let B = BG.backgrounds();
     let doubleTouch = DT.doubleTouch(); 
     B.setCurrentBackground(canvas);
