@@ -3,13 +3,10 @@ import * as H from "./js/hole.mjs";
 import * as S from "./js/stats.mjs";
 import * as CS from "./js/collisionDetection.js";
 
-
-let mapvertlen= 335
-
 let levelSettings = [{
-    bx: 50,
+    bx: 100,
     by: 150,
-    velx: 50,
+    velx: 100,
     vely: 150,
     hx: 350,
     hy: 700,
@@ -31,14 +28,39 @@ let levelSettings = [{
     ]
 },
 {
-    bx: 200,
-    by: 200,
-    velx: 200,
-    vely: 200,
-    hx: 500,
-    hy: 500,
+    bx: 100,
+    by: 150,
+    velx: 100,
+    vely: 150,
+    hx: 700,
+    hy: 800,
     radius: 20,
-    velocityradius: 20
+    velocityradius: 20,
+
+    mapLines: [
+        //Map Border
+        { start: { x: 20, y: 100 }, end: { x:750, y: 100 } },
+        { start: { x: 20, y: 100 }, end: { x: 20, y: 850 } },
+        { start: { x: 750, y: 100 }, end: { x: 750, y: 850 } },
+        { start: { x: 20, y: 850 }, end: { x: 750, y: 850 } },
+
+
+        { start: { x: 200, y: 100 }, end: { x: 200, y: 700 } },
+        { start: { x: 400, y: 300 }, end: { x: 400, y: 850 } },
+        { start: { x: 600, y: 100 }, end: { x: 600, y: 700 } }
+
+
+
+
+        //{ start: { x: 20, y: 200 }, end: { x: 450, y: 200 } },
+        //{ start: { x: 250, y: 400 }, end: { x: 750, y: 400 } },
+
+        //{ start: { x: 20, y: 600 }, end: { x: 450, y: 600 } }
+
+    ]
+
+
+
 }]
 
 
